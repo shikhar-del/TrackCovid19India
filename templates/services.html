@@ -1,0 +1,86 @@
+{%extends "layout.html"%}
+
+{%block title%}
+    Services
+{%endblock%}
+
+{%block design%}
+    <style>
+        .parent{
+            width:60%;
+            margin:auto;
+        }
+        .container{
+            width:100%!important;
+        }
+        .list{
+            margin-bottom: 50px;
+            display: grid; 
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 50px;
+        }
+        a>button{
+            font-size: 24px;
+        }
+        button{
+            position: relative;
+        }
+        .svg{
+            position: absolute;
+            top:50%;
+            left:0%;
+            transform: translate(-50%,-50%);
+            opacity:0;
+        }
+        button:hover .svg{
+            transition: 0.4s ease-in all;
+            transform: translate(10%,-50%);
+            opacity:1;
+        }
+        svg>path:nth-child(2){
+            fill: white;
+        }
+        @media screen and (max-width: 770px){
+            .list{
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+{%endblock%}
+
+{%block main%}
+    <div class="parent">
+        <div class="form-group">
+            <label class="col-form-label" for="inputDefault">Enter your city:</label>
+            <input autocomplete="off" onkeyup="get_data()" onfocus="hide()" type="text" class="form-control" placeholder="Type Here" id="district">
+        </div>
+    </div>
+    <div class="container">
+        <div class="list">
+        </div>
+        <img id="search" style="width:100%;height: 250px;"src="/static/images/undraw_file_searching_duff.svg">
+    </div>
+{%endblock%}
+
+{%block script%}
+<script>
+    get_data = ()=>{
+        var district = document.getElementById("district").value
+        if(district.length>=2 && district.trim()!=""){
+        $.ajax({
+            type:"post",
+            url:"/services",
+            data:{"district":district},
+            success:(data)=>{
+                const x = document.querySelector(".list")
+                x.innerHTML = data
+            }
+        })}
+    }
+
+    hide = ()=>{
+        const i = document.querySelector("#search");
+        i.style.display = "none";
+    }    
+</script>
+{%endblock%}

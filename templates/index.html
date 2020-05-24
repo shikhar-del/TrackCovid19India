@@ -1,0 +1,83 @@
+{%extends "layout.html"%}
+
+{%block title%}
+    Covid19
+{%endblock%}
+
+{%block design%}
+    <style>
+        .parent{
+            width:80%;
+            margin:auto;
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap:50px;
+            margin-top: 50px;
+            margin-bottom: 100px;
+        }
+        .loader{
+            position: fixed;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .info{
+            width: 80%;
+            margin: auto;
+            margin-top:50px;
+        }
+
+        .badge{
+            width:100%;
+            font-size: 14px!important;
+        }
+
+        @media screen and (max-width:800px) {
+            .parent{
+                grid-template-columns: 1fr 1fr; 
+            }           
+        }
+
+        @media screen and (max-width:550px) {
+            .parent{
+                grid-template-columns: 1fr; 
+            }           
+        }
+    </style>
+{%endblock%}
+
+{%block main%}
+    <img class="loader" src="../static/images/128x128.gif">
+    <div class="info">
+        <span class="badge badge-primary">Active cases and recovery is equal.</span>
+        <span class="badge badge-success">Recovery is more than active cases.</span>
+        <span class="badge badge-danger">Active cases are more than recovered.</span>
+    </div>
+    <div class="parent">
+    </div>
+{%endblock%}
+{%block script%}
+    <script>
+        show = () =>{$.ajax({
+            type:'get',
+            url:'/get_cases',
+            beforeSend:function(){
+                var x = document.querySelector(".loader");
+                x.style.display = "block";
+            },
+            success:function(data){
+                var el = document.querySelector(".parent");
+                var x = document.querySelector(".loader");
+                el.innerHTML = data;
+                x.style.display="none";
+            }
+        })};
+
+        show();
+
+        setInterval(function(){
+            show()
+        },300000)
+    </script>
+{%endblock%}

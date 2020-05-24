@@ -1,0 +1,20 @@
+
+<table class="table">
+    <tbody>
+    {%for row in obj%}
+    {%if row["zone"]=="Green"%}
+        {%set class="success"%}
+    {%elif row["zone"]=="Red"%}
+        {%set class="danger"%}
+    {%elif row["zone"]=="Orange"%}
+        {%set class="orange"%}
+    {%endif%}
+      <tr class="table-{{class}}">
+        <th>{{row["district"]}}</th>
+        <td>{{row["state"]}}</td>
+        <td class="rem">({{row["statecode"]}})</td>
+        <td style="text-align: center;">{{row["zone"]}} Zone</td>
+      </tr>
+    {%endfor%}  
+    </tbody>
+  </table>

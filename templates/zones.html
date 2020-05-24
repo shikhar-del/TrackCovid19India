@@ -1,0 +1,81 @@
+{%extends "layout.html"%}
+
+{%block title%}
+    Zones
+{%endblock%}
+
+{%block design%}
+    <style>
+        body{
+            height:fit-content
+        }
+        .parent{
+            width:50%;
+            margin: auto;
+        }
+        .list{
+             margin-bottom: 50px;
+        }
+        .table-orange{
+            background: rgb(221, 179, 54);
+        }
+
+        @media screen and (max-width:800px){
+            .parent{
+                width:80%;
+            }
+        }
+        @media screen and (max-width:500px){
+            .parent{
+                width:100%;
+            }
+            .rem{
+                display: none;
+            }
+            th,td{
+                font-size: 14px;
+            }
+        }
+    </style>
+{%endblock%}
+
+{%block main%}
+
+<div class="parent">
+<div class="form-group">
+    
+    <label class="col-form-label" for="inputDefault">Enter your district</label>
+    <input id="district" onkeypress="get_data()" onfocus="hide()" name="district" autocomplete="off" type="text" class="form-control" placeholder="Type here">
+</div>
+</div>
+<div class="parent">
+<div class="list"></div>
+<img id="search" style="width:100%;height: 250px;"src="/static/images/undraw_file_searching_duff.svg">
+</div>
+{%endblock%}
+
+{%block script%}
+    <script>
+        get_data = ()=>{
+            var val = document.getElementById('district').value;
+            if(val.length>=2){
+            $.ajax({
+                type:"post",
+                url: "/zones",
+                data : {district:val},
+                success: (data)=>{
+                    const i = document.querySelector(".list");
+                    i.innerHTML = data
+                    var x = document.querySelector(".loader");
+                    x.style.display = "none";
+                }
+            });
+            }
+        }
+        
+        hide = ()=>{
+        const i = document.querySelector("#search");
+        i.style.display = "none";
+    } 
+    </script>
+{%endblock%}

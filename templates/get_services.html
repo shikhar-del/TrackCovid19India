@@ -1,0 +1,30 @@
+{%if obj%}
+{%for row in obj%}
+    <div class="card text-white bg-primary mb-3" style="width:100%;height:100%">
+        <div class="card-header">{{row["category"]}}
+            ({{row["city"]}},{{row["state"]}})
+            {%if "food" in row["category"].lower() or "delivery" in row["category"].lower() or "kitchen" in row["category"].lower()%}
+                <img style="width:50px;float: right;" src="/static/icons/food.png" alt="">
+            {%elif "hospital" in row["category"].lower() or "testing" in row["category"].lower()%}    
+            <img style="width:50px;float: right;" src="/static/icons/hospital.svg" alt="">
+            {%elif "fund" in row["category"].lower()%}
+            <img style="width:50px;float: right;" src="/static/icons/donation.svg" alt="">
+            {%elif "women" in row["descriptionandorserviceprovided"].lower()%}
+            <img style="width:50px;float: right;" src="/static/icons/people.svg" alt="">
+            {%endif%}
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{row["nameoftheorganisation"]}}
+          </h4>
+          <p class="card-text">{{row["descriptionandorserviceprovided"]}}</p>
+        </div>
+        <div class="card-header">
+            <a target="_blank" href="{{row['contact']}}"><button style="padding: 6px;padding-left:30px;padding-right:15px" class="btn btn-success"><svg class="svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-.61.08-1.21.21-1.78L8.99 15v1c0 1.1.9 2 2 2v1.93C7.06 19.43 4 16.07 4 12zm13.89 5.4c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41C17.92 5.77 20 8.65 20 12c0 2.08-.81 3.98-2.11 5.4z"/></svg>Connect</button></a>
+            <h6 style="float: right;margin-top: 10px;">{%if row["phonenumber"]%}<img width="24px" src="/static/icons/call.svg"> {{row["phonenumber"]}}</h6>{%endif%}
+        </div>
+    </div>
+{%endfor%}
+{%else%}
+    <img style="width:100%" src="/static/images/undraw_no_data_qbuo.svg" alt="">
+    <img style="width:100%" src="/static/images/undraw_page_not_found_su7k.svg" alt="">
+{%endif%}

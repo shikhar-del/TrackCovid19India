@@ -1,0 +1,17 @@
+{%for row in obj%}
+{%if row["recovered"]|int>row["active"]|int%}
+    {%set status="success"%}
+{%elif row["recovered"]==row["active"]%}
+    {%set status="primary"%}
+{%else%}
+    {%set status="danger"%}
+{%endif%}
+<div style="height: 100%;" class="idd card text-white bg-{{status}} mb-3">
+    <div class="card-header">{{row["state"]}}</div>
+    <div class="card-body">
+      <h4 class="card-title">{{row["confirmed"]}}</h4>
+      <p class="card-text"><strong>Active:</strong> {{row["active"]}}</p>
+      <p class="card-text"><strong>Recovered:</strong> {{row["recovered"]}}</p>
+    </div>
+</div>
+{%endfor%}
